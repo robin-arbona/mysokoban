@@ -4,13 +4,28 @@ import random
 class Ball:
     inhibate = 0
     points = 0
+    run = True
+    loose = False
 
     def __init__(self, width, height):
         self.speed = [5, 5]
         self.width = width
         self.height = height
+        self.ballInit = pygame.image.load("intro_ball.gif")
         self.ball = pygame.image.load("intro_ball.gif")
         self.ballrect = self.ball.get_rect()
+        self.angle = 0 
+
+    def reload(self):
+        print('reload')
+        self.run = True
+        self.loose = False
+        self.points = 0
+        self.ballrect.left = 0
+        self.ballrect.top = 0
+        self.angle = 0 
+        self.speed = [5, 5]
+
 
     def accelerateX(self):
         self.speed = [self.speed[0] + 5, self.speed[1] + random.randrange(0,3)]
@@ -24,8 +39,20 @@ class Ball:
         if(self.speed[1] > 5):
             self.speed[1] = self.speed[1] - 1
 
+    def rotate(self):
+        ballRotated = pygame.transform.rotate(self.ballInit, self.angle)
+        self.ballrect = ballRotated.get_rect(center = self.ballInit.get_rect(center = self.ballrect.center).center)
+        
+        self.angle += 1
+        self.ball = ballRotated
 
     def animate(self, faceRect):
+
+        self.rotate()
+
+        if(not self.run):
+            return self.ball, self.ballrect, self.points, self.loose
+        
         
         (l,t,w,h) = faceRect
 
@@ -59,12 +86,12 @@ class Ball:
         if rightCol:
             self.accelerateX()
 
-        if (topCol or rightCol or leftCol):
+        if ((topCol or rightCol or leftCol)) and (self.inhibate == 0):
             self.points = self.points + 1
 
-        loose = False
+        
         if self.ballrect.bottom > self.height:
-            loose = True
+            self.loose = True
 
         # Change direction if touch screen sides or face
         if(self.inhibate == 0):
@@ -75,4 +102,4 @@ class Ball:
                 self.inhibate = 10
                 self.speed[1] = -self.speed[1]
 
-        return self.ball, self.ballrect, self.points, loose
+        return self.ball, self.ballrect, self.points, self.loose

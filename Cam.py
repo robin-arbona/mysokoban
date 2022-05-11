@@ -10,10 +10,10 @@ class Cam:
     width = 0
     heigh = 0
 
-    def __init__(self, width, height):
+    def __init__(self, width, heigh):
         camera = cv2.VideoCapture(0)
-        camera.set(3,640)
-        camera.set(4,480)
+        camera.set(3,width)
+        camera.set(4,heigh)
         self.camera = camera
         self.face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
 

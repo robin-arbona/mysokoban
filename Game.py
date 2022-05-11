@@ -16,9 +16,10 @@ class Game:
 
     def actionsHandeler(self):
         for event in pygame.event.get():
-            if event.type in (pygame.QUIT, pygame.KEYDOWN):           
+            if event.type == pygame.QUIT:           
                 sys.exit()
-
+            if event.type == pygame.KEYDOWN:
+                self.ball.reload()
 
     def getFaceRectFromCam(self):
         l = self.width-self.cam.width-self.cam.left
@@ -41,13 +42,7 @@ class Game:
 
             faceRect = (l,t,w,h) = self.getFaceRectFromCam()
 
-            if(self.loose):
-                self.screen.blit(self.writeText('looser !!!'), (100,100))
-                self.screen.blit(self.writeText(str(self.points)), (25,25))
-                pygame.display.flip()
-                continue
                 
-
             ball, ballRect, self.points, self.loose =  self.ball.animate(faceRect)
 
             camPic, pos = self.cam.getSurfaceCam()
@@ -55,6 +50,11 @@ class Game:
             self.actionsHandeler()
 
             self.screen.blit(camPic, pos)
+
+            # Handle failure
+            if(self.loose):
+                self.screen.blit(self.writeText('!!! Looser !!!'), (200,150))
+                self.ball.run = False
 
             # display ball
             self.screen.blit(ball, ballRect)
@@ -64,7 +64,9 @@ class Game:
 
 
             # display face rectangle for debuging
-            # pygame.draw.rect(self.screen, (255,0,0), faceRect, 4)
+            pygame.draw.rect(self.screen, (255,0,0), faceRect, 1)
+            pygame.draw.rect(self.screen, (255,255,0), ballRect, 1)
+
 
             pygame.display.flip()
 
