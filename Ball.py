@@ -17,7 +17,7 @@ class Ball:
         self.angle = 0 
 
     def reload(self):
-        print('reload')
+        """reload the game"""
         self.run = True
         self.loose = False
         self.points = 0
@@ -25,7 +25,6 @@ class Ball:
         self.ballrect.top = 0
         self.angle = 0 
         self.speed = [5, 5]
-
 
     def accelerateX(self):
         self.speed = [self.speed[0] + 5, self.speed[1] + random.randrange(0,3)]
