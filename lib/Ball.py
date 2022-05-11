@@ -74,7 +74,7 @@ class Ball:
 
         if(self.inhibate >0):
             self.inhibate = self.inhibate-1
-            
+
         self.ballrect = self.ballrect.move(self.speed)
 
 
@@ -85,10 +85,12 @@ class Ball:
         if self.ballrect.bottom > self.height : self.ballrect.bottom = self.height + 1
 
 
+        # Collision whith faces sides defintion
         topCol = self.ballrect.clipline(horTopLine)
         leftCol = self.ballrect.clipline(verLeftLine)
         rightCol = self.ballrect.clipline(verRightLine)
 
+        # Accelare move when touch top or left / right faces rectangle sides
         if topCol:
             self.accelerateY()
 
@@ -101,7 +103,7 @@ class Ball:
         if ((topCol or rightCol or leftCol)) and (self.inhibate == 0):
             self.points = self.points + 1
 
-        
+        # Loose if touch screen bottom        
         if self.ballrect.bottom > self.height:
             self.loose = True
 
