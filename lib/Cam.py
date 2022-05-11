@@ -15,7 +15,7 @@ class Cam:
         camera.set(3,width)
         camera.set(4,heigh)
         self.camera = camera
-        self.face_cascade = cv2.CascadeClassifier('haarcascade_frontalface_default.xml')
+        self.face_cascade = cv2.CascadeClassifier('lib/haarcascade_frontalface_default.xml')
 
 
     def action(self, event):

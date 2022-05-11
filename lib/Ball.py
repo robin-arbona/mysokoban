@@ -8,41 +8,52 @@ class Ball:
     loose = False
 
     def __init__(self, width, height):
-        self.speed = [5, 5]
+        self.speed = [ random.randrange(-5,5) , random.randrange(-5,5) ]
         self.width = width
         self.height = height
-        self.ballInit = pygame.image.load("intro_ball.gif")
-        self.ball = pygame.image.load("intro_ball.gif")
+        self.ballInit = pygame.image.load("lib/intro_ball.gif")
+        self.ball = pygame.image.load("lib/intro_ball.gif")
         self.ballrect = self.ball.get_rect()
+        self.ballrect.left = random.randrange(0,self.width - 50)
         self.angle = 0 
+        self.acc = 10
 
     def reload(self):
         """reload the game"""
         self.run = True
         self.loose = False
         self.points = 0
-        self.ballrect.left = 0
+        self.ballrect.left = random.randrange(0,self.width - 50)
         self.ballrect.top = 0
         self.angle = 0 
-        self.speed = [5, 5]
+        self.speed = [ random.randrange(-5,5) , random.randrange(-5,5) ]
 
     def accelerateX(self):
-        self.speed = [self.speed[0] + 5, self.speed[1] + random.randrange(0,3)]
+        if(self.speed[0] > 0):
+            self.speed = [self.speed[0] + self.acc, self.speed[1] + random.randrange(-3,3)]
+        else:
+            self.speed = [self.speed[0] - self.acc, self.speed[1] + random.randrange(-3,3)]
 
     def accelerateY(self):
-        self.speed = [self.speed[0] + random.randrange(0,3), self.speed[1] + 5]
+        if(self.speed[1] > 0):
+            self.speed = [self.speed[0] + random.randrange(-3,3), self.speed[1] + self.acc]
+        else:
+            self.speed = [self.speed[0] + random.randrange(-3,3), self.speed[1] - self.acc]
+
 
     def decelerate(self):
-        if(self.speed[0] > 5):
+        if(self.speed[0] > self.acc):
             self.speed[0] = self.speed[0] - 1
-        if(self.speed[1] > 5):
+        if(self.speed[1] > self.acc):
             self.speed[1] = self.speed[1] - 1
+        if(self.speed[1] < self.acc):
+            self.speed[1] = self.speed[1] + 1
 
     def rotate(self):
         ballRotated = pygame.transform.rotate(self.ballInit, self.angle)
         self.ballrect = ballRotated.get_rect(center = self.ballInit.get_rect(center = self.ballrect.center).center)
         
-        self.angle += 1
+        self.angle += 5
         self.ball = ballRotated
 
     def animate(self, faceRect):
@@ -60,8 +71,10 @@ class Ball:
         verRightLine = ((l+h,t), (l+h,t+h))
 
         self.decelerate()
+
         if(self.inhibate >0):
             self.inhibate = self.inhibate-1
+            
         self.ballrect = self.ballrect.move(self.speed)
 
 

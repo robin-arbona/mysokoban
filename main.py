@@ -1,4 +1,4 @@
-from Game import Game
+from lib.Game import Game
 
 width, height = 640, 380
 

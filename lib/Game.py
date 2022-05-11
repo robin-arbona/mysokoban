@@ -1,6 +1,6 @@
 import sys, pygame
-from Ball import Ball
-from Cam import Cam
+from lib.Ball import Ball
+from lib.Cam import Cam
 
 class Game:
     loose = False
