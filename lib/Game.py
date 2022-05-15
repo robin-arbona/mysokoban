@@ -64,8 +64,8 @@ class Game:
 
 
             # display face rectangle for debuging
-            pygame.draw.rect(self.screen, (255,0,0), faceRect, 1)
-            pygame.draw.rect(self.screen, (255,255,0), ballRect, 1)
+            # pygame.draw.rect(self.screen, (255,0,0), faceRect, 1)
+            # pygame.draw.rect(self.screen, (255,255,0), ballRect, 1)
 
 
             pygame.display.flip()
